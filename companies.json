@@ -1,0 +1,20 @@
+{
+  "_help": "Company careers boards to pull. Use the name from the board's link; add =website for the right logo (e.g. \"linear=linear.app\"). Boards that don't exist are skipped.",
+  "greenhouse": [
+    "stripe", "airbnb", "figma", "discord", "duolingo", "reddit", "dropbox", "cloudflare", "gitlab",
+    "robinhood", "pinterest", "lyft", "instacart", "asana", "datadog=datadoghq.com", "squarespace", "twilio",
+    "coinbase", "brex", "gusto", "affirm", "databricks", "elastic=elastic.co", "mongodb", "okta",
+    "samsara", "anthropic", "intercom", "monzo", "wise", "deliveroo", "toast=toasttab.com",
+    "hellofresh", "n26", "celonis", "contentful"
+  ],
+  "lever": ["palantir", "spotify", "zopa", "qonto"],
+  "ashby": [
+    "openai", "ramp", "notion=notion.so", "plaid", "supabase", "synthesia=synthesia.io", "multiverse=multiverse.io",
+    "deliveroo", "linear=linear.app", "cursor=cursor.com", "perplexity=perplexity.ai", "elevenlabs=elevenlabs.io",
+    "lovable=lovable.dev", "posthog", "pleo=pleo.io"
+  ],
+  "smartrecruiters": ["boschgroup=bosch.com", "wise", "ubisoft2=ubisoft.com"],
+  "workable": ["starling-bank=starlingbank.com", "huggingface=huggingface.co"],
+  "recruitee": ["channable", "bunq"],
+  "personio": ["personio"]
+}

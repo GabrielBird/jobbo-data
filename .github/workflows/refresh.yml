@@ -1,0 +1,57 @@
+name: Refresh jobs
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # every 6 hours
+  workflow_dispatch:          # "Run workflow" button in the Actions tab
+  push:
+    branches: [main]
+    paths: ["*.py", "companies.json", ".github/workflows/refresh.yml"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Place names looked up on earlier runs, so each is only geocoded once.
+      - uses: actions/cache@v4
+        with:
+          path: cache
+          key: geocode-${{ github.run_id }}
+          restore-keys: geocode-
+
+      - name: Fetch every source
+        env:
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          USAJOBS_KEY: ${{ secrets.USAJOBS_KEY }}
+          USAJOBS_EMAIL: ${{ secrets.USAJOBS_EMAIL }}
+          REED_KEY: ${{ secrets.REED_KEY }}
+          JOOBLE_KEY: ${{ secrets.JOOBLE_KEY }}
+          CAREERJET_AFFID: ${{ secrets.CAREERJET_AFFID }}
+        run: python fetch.py
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
