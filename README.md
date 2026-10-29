@@ -1,6 +1,6 @@
 # Next Stop data
 
-The job feed behind the Next Stop app (city jobs). On-site jobs are kept only within 35 miles of each
+The job feed behind the Next Stop app (city jobs). On-site jobs are kept only within 12 miles of each
 country's 10 major cities (see `countries.py`); remote jobs are kept too.
 
 Every 6 hours, GitHub Actions pulls jobs from free sources,

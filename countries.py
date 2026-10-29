@@ -89,7 +89,7 @@ def remote_countries(text):
 
 # Centre points of each country's cities (same order as "cities"); jobs further than
 # CITY_RADIUS_MILES from all of them are left out, since the app is for big-city jobs.
-CITY_RADIUS_MILES = 35
+CITY_RADIUS_MILES = 12   # the app shows 10 miles; a little margin for rounding
 CITY_COORDS = {
     "us": [(40.7128, -74.0060), (34.0522, -118.2437), (41.8781, -87.6298), (29.7604, -95.3698), (32.7767, -96.7970),
            (37.7749, -122.4194), (47.6062, -122.3321), (42.3601, -71.0589), (30.2672, -97.7431), (33.7490, -84.3880)],
