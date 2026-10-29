@@ -161,7 +161,10 @@ def write(jobs, status):
                     continue
             elif j["cc"] != cc or not near_a_city(cc, j["la"], j["lo"]):
                 continue   # only jobs in and around the country's big cities
-            row = {k: v for k, v in j.items() if k not in ("rt", "cc") and v not in (None, [], "", False)}
+            # Drop empty fields to keep files small. Checked by identity: `0 in (False,)` is True in Python,
+            # which would drop a longitude of exactly 0 (Greenwich) or a 0 coordinate.
+            row = {k: v for k, v in j.items()
+                   if k not in ("rt", "cc") and v is not None and v is not False and v != [] and v != ""}
             if j["cur"] != c["currency"]:  # pay in another currency: drop it rather than mislabel it
                 for k in ("mn", "mx", "p", "cur"):
                     row.pop(k, None)
