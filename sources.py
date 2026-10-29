@@ -68,6 +68,23 @@ def num(v):
         return None
 
 
+CONTRACT_WORDS = {"fulltime": "Full time", "parttime": "Part time", "contract": "Contract", "intern": "Intern",
+                  "internship": "Internship", "temporary": "Temporary", "permanent": "Permanent", "freelance": "Freelance",
+                  "fulltimepermanent": "Full time, permanent", "remote": "Remote", "hybrid": "Hybrid", "onsite": "On-site"}
+
+
+def tidy_tag(t):
+    """'FullTime' / 'full_time' / 'FULL_TIME' → 'Full time'. Leaves names like 'iOS' or 'DevOps' alone."""
+    t = str(t).strip()
+    key = re.sub(r"[\s_-]", "", t).lower()
+    if key in CONTRACT_WORDS:
+        return CONTRACT_WORDS[key]
+    if "_" in t:
+        t = t.replace("_", " ").lower()
+        return t[:1].upper() + t[1:]
+    return t
+
+
 def job(source, id, title, company, location="", lat=None, lon=None, remote=False, country=None,
         remote_text="", pay_min=None, pay_max=None, period=None, currency=None, posted=None, url=None,
         logo=None, site=None, summary=None, tags=(), detail=None, nearby=False):
@@ -79,7 +96,7 @@ def job(source, id, title, company, location="", lat=None, lon=None, remote=Fals
         "l": str(location or "").strip(), "la": lat, "lo": lon, "r": bool(remote), "cc": country,
         "rt": remote_text, "mn": lo, "mx": hi, "p": period if (lo or hi) else None,
         "cur": currency if (lo or hi) else None, "s": source, "d": posted, "u": url, "g": logo, "w": site,
-        "x": summary, "tg": [t for t in dict.fromkeys(x.strip() for x in tags if x and str(x).strip()) if len(t) <= 32][:8],
+        "x": summary, "tg": [t for t in dict.fromkeys(tidy_tag(x) for x in tags if x and str(x).strip()) if len(t) <= 32][:8],
         "da": detail, "nb": nearby,
     }
 
