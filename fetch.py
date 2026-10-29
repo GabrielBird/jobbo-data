@@ -109,7 +109,7 @@ def place_jobs(jobs):
     # Most common place names first, so the lookup budget goes where it helps most.
     counts = {}
     for j in jobs:
-        if not j["r"] and j["la"] is None:
+        if not j["r"] and (j["la"] is None or j["lo"] is None):
             for seg in segments(j["l"])[:1]:
                 counts[(seg, j["cc"])] = counts.get((seg, j["cc"]), 0) + 1
     for (seg, cc), _ in sorted(counts.items(), key=lambda kv: -kv[1]):
@@ -120,7 +120,7 @@ def place_jobs(jobs):
         if j["r"]:
             placed.append(j)
             continue
-        if j["la"] is None:
+        if j["la"] is None or j["lo"] is None:
             seg = (segments(j["l"]) or [None])[0]
             hit = geo.find(seg, j["cc"]) if seg else None
             if not hit:

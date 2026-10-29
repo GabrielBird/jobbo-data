@@ -116,6 +116,8 @@ CITY_COORDS = {
 
 def near_a_city(cc, lat, lon):
     from math import asin, cos, radians, sin, sqrt
+    if lat is None or lon is None:   # a source sent half a coordinate: can't place it
+        return False
     for la, lo in CITY_COORDS.get(cc, []):
         d = 2 * 3958.8 * asin(sqrt(sin(radians(lat - la) / 2) ** 2 +
                                    cos(radians(la)) * cos(radians(lat)) * sin(radians(lon - lo) / 2) ** 2))
