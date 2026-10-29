@@ -1,6 +1,9 @@
-# Jobbo data
+# Next Stop data
 
-The job feed behind the Jobbo app. Every 6 hours, GitHub Actions pulls jobs from free sources,
+The job feed behind the Next Stop app (city jobs). On-site jobs are kept only within 35 miles of each
+country's 10 major cities (see `countries.py`); remote jobs are kept too.
+
+Every 6 hours, GitHub Actions pulls jobs from free sources,
 works out where each one is, removes duplicates, and publishes one file per country on GitHub Pages:
 
 ```
@@ -8,7 +11,7 @@ https://gabrielbird.github.io/jobbo-data/v1/us.json   (also gb, ca, au, ie, de, 
 https://gabrielbird.github.io/jobbo-data/v1/meta.json  (when it last ran, and how each source did)
 ```
 
-The app reads these files instead of calling every job site itself, so free API limits are shared
+Next Stop reads these files instead of calling every job site itself, so free API limits are shared
 by all users, keys never ship inside the app, and searches are instant.
 
 ## Sources

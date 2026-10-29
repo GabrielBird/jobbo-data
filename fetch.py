@@ -14,7 +14,7 @@ import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from countries import COUNTRIES, country_code, remote_countries
+from countries import COUNTRIES, country_code, near_a_city, remote_countries
 import sources
 
 ROOT = Path(__file__).parent
@@ -159,8 +159,8 @@ def write(jobs, status):
             if j["r"]:
                 if cc not in remote_countries(j["rt"]):
                     continue
-            elif j["cc"] != cc:
-                continue
+            elif j["cc"] != cc or not near_a_city(cc, j["la"], j["lo"]):
+                continue   # only jobs in and around the country's big cities
             row = {k: v for k, v in j.items() if k not in ("rt", "cc") and v not in (None, [], "", False)}
             if j["cur"] != c["currency"]:  # pay in another currency: drop it rather than mislabel it
                 for k in ("mn", "mx", "p", "cur"):
