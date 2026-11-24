@@ -21,9 +21,6 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -50,8 +47,19 @@ jobs:
         run: python fetch.py
 
       - uses: actions/configure-pages@v5
+      # Upload in this job and publish in deploy. deploy-pages looks the
+      # artifact up by name, and that lookup often comes back empty when it
+      # runs in the same job that just uploaded (actions/deploy-pages#451).
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+
+  deploy:
+    needs: refresh
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
       - id: deploy
         uses: actions/deploy-pages@v4
